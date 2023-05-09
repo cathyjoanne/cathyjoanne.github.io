@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!--bootstrap 5.2-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+    <title>Botanic Butler - My Plants</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+
+    <style>
+        body {
+            background-image: url(https://c0.wallpaperflare.com/path/691/526/546/5be97e91018b2-a78f4224ef55bfdadf4244b131516755.jpg);
+            background-repeat: repeat;
+            background-size: cover;
+        }
+
+        .chartMenu {
+            width: 100vw;
+            height: 40px;
+            background: #1A1A1A;
+            color: rgba(54, 162, 235, 1);
+        }
+
+        .chartMenu p {
+            padding: 10px;
+            font-size: 20px;
+        }
+
+        .chartCard {
+            width: 100vw;
+            height: calc(100vh - 40px);
+            background: rgba(54, 162, 235, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chartBox {
+            width: 700px;
+            padding: 20px;
+            border-radius: 20px;
+            border: solid 3px rgba(54, 162, 235, 1);
+            background: white;
+        }
+
+        .text-center {
+            color: #5f7616;
+        }
+
+        .main-title {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, 0%);
+            color: white;
+            font-weight: 800;
+            font-family: 'Trebuchet MS';
+            text-align: center;
+            width: 96.6667%;
+        }
+
+        .card {
+            border-color: #f0f0f0;
+            background-color: #f6f6f6;
+            border-radius: 15px;
+        }
+
+        .no-pad {
+            padding: 10px;
+            margin: 0px;
+        }
+
+        .grid-cont {
+            text-align: center;
+            position: relative;
+            margin-top: 130px;
+        }
+
+        .square-image {
+            width: 50%;
+            object-fit: cover;
+            aspect-ratio: 1/1;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top bg-light">
+        <div class="container-fluid">
+            <img style="height:50px;" src="bbicongreen.png">&nbsp;
+            <a class="navbar-brand" href="#">
+                <h2 style="color:#5f7616;">Botanic Butler</h2>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
+                    <li class="nav-item px-3">
+                        <a class="nav-link active" aria-current="page" href="bbmyplants.html">My Plants</a>
+                    </li>
+                    <li class="nav-item px-3">
+                        <a class="nav-link">Contact</a>
+                    </li>
+                    <li class="nav-item px-3 dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">Profile </a>
+                        <!-- Dropdown menu -->
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" href="#">My account</a>
+                            </li>
+
+                            <li>
+                                <a class="dropdown-item" href="bbhome.html">Log out</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container grid-cont ">
+        <div class="d-flex justify-content-between">
+                <a href="bbmyplants.html" class="btn btn-lg"
+                style="background-color:white; color:#5f7616; border-color: #5f7616;">Back</a>
+                <button class="btn btn-lg"
+                style="background-color:white; color:#5f7616; border-color: #5f7616;">Edit Plant</button>
+        </div>
+        <div class="row" id="target">
+        </div>
+        <div class="row">
+            <div class="col no-pad">
+                <div class="card text-center ">
+                    <div class="card-body">
+                        <canvas id="bar-chart" width="800" height="450">
+                        </canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        let params = new URLSearchParams(location.search);
+        let pid = params.get('pid');
+        let atkn = sessionStorage.getItem('atkn');
+        let muuid = sessionStorage.getItem('muuid');
+        console.log(atkn);
+        console.log(muuid);
+        console.log(pid);
+
+        const API_URL = "http://localhost:8080/plants/" + pid + "/plant/info";
+        fetch(API_URL, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': atkn
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                let tdata = '';
+                labels = [];
+                wtrlevels = [];
+                temps = [];
+                mstlevels = [];
+                data.forEach((val, ind) => {
+                    if (ind == 0) {
+                        tdata += `<div class="col col-12 col-sm-12 col-md-6 no-pad">
+                                        <div class="card text-center ">
+                                            <div class="card-body">
+                                                <img class="square-image" style="height: 100%; width: 100%; object-fit: contain;"
+                                                    src="https://www.ikea.com/us/en/images/products/crassula-ovata-potted-plant-money-tree__0574166_pe668124_s5.jpg?f=s">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-12 col-sm-12 col-md-6">
+                                        <div class="row p-2">
+                                            <div class="card text-center">
+                                                <div class="card-body">
+                                                    <h1 class="card-title"><i>${val.name}</i></h1>
+                                                    <p>plant type</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row p-2">
+                                            <div class="card text-center">
+                                                <div class="card-body">
+                                                    <br>
+                                                    <h3 class="card-text"><b>Health:</b> ${val.health}</h3>
+                                                    <h3 class="card-text"><b>Lifetime:</b> ${val.lfttme}</h3>
+                                                    <h3 class="card-text"><b>Last Watered:</b> ${val.wtrtme} min ago</h3>
+                                                    <h3 class="card-text"><b>Water Tank Level:</b> ${val.wtrlvl}mL</h3>
+                                                    <h3 class="card-text"><b>Temperature:</b> ${val.tmplvl}°F</h3>
+                                                    <h3 class="card-text"><b>Moisture Level:</b> ${val.mstlvl} units</h3>
+                                                    <br>
+                                                </div>
+                                                <div class="card-footer text-muted">
+                                                    Posted at: ${val.posted.$date}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`;
+                    }
+                    labels.push(val.posted.$date);
+                    wtrlevels.push(val.wtrlvl);
+                    temps.push(val.tmplvl);
+                    mstlevels.push(val.mstlvl);
+                })
+                console.log(labels);
+                console.log(wtrlevels);
+                console.log(temps);
+                console.log(mstlevels);
+                //reverse so its oldest to newest data
+                labels.reverse();
+                wtrlevels.reverse();
+                temps.reverse();
+                mstlevels.reverse
+                new Chart(document.getElementById("bar-chart"), {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: "Water Tank Level",
+                                borderColor: 'rgba(255, 26, 104, 1)',
+                                backgroundColor: 'rgba(255, 26, 104, 1)',
+                                fill: false,
+                                data: wtrlevels
+                            },
+                            {
+                                label: "Temperature",
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                backgroundColor: 'rgba(54, 162, 235, 1)',
+                                fill: false,
+                                data: temps
+                            },
+                            {
+                                label: "Moisture Level",
+                                borderColor: 'rgba(255, 206, 86, 1)',
+                                backgroundColor: 'rgba(255, 206, 86, 1)',
+                                fill: false,
+                                data: mstlevels
+                            }
+                        ]
+                    },
+                    // options: {
+                    //     legend: { display: false },
+                    //     title: {
+                    //         display: true,
+                    //         text: 'U.S population'
+                    //     }
+                    // }
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+                document.getElementById("target").innerHTML = tdata;
+            })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,134 @@
+<html lang="en">
+
+<head>
+    <!--bootstrap 5.2-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+    <title>Botanic Butler</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        .b-example-divider {
+            height: 3rem;
+            background-color: rgba(0, 0, 0, .1);
+            border: solid rgba(0, 0, 0, .15);
+            border-width: 1px 0;
+            box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+        }
+
+        .b-example-vr {
+            flex-shrink: 0;
+            width: 1.5rem;
+            height: 100vh;
+        }
+
+        .bi {
+            vertical-align: -.125em;
+            fill: currentColor;
+        }
+
+        .nav-scroller {
+            position: relative;
+            z-index: 2;
+            height: 2.75rem;
+            overflow-y: hidden;
+        }
+
+        .nav-scroller .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
+
+
+    <!-- Custom styles for this template -->
+    <link href="signin.css" rel="stylesheet">
+</head>
+
+<body class="text-center vsc-initialized" data-new-gr-c-s-check-loaded="14.1103.0" data-gr-ext-installed="">
+
+    <main class="form-signin w-100 m-auto">
+        <form method="get" id="frm">
+            <img class="mb-4" src="bbicongreen.png" alt="" width="200" height="200">
+            <h1 class="h3 mb-3 fw-normal">Welcome</h1>
+
+            <div class="form-floating">
+                <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+                <label for="floatingInput">Email address</label>
+            </div>
+
+            <div class="form-floating">
+                <input type="password" class="form-control" id="password" placeholder="Password" required>
+                <label for="floatingPassword">Password</label>
+            </div>
+            <input class="w-100 btn btn-lg btn-primary" style="background-color: #5f7616; border-color: #5f7616;"
+                type="submit" value="Log In">
+        </form>
+
+        <a href="bbhome.html"><button class="w-100 btn btn-lg"
+                style="background-color:gray; color:white;">Back</button></a>
+    </main>
+    <script>
+        const form = document.getElementById("frm");
+
+        function post() {
+            event.preventDefault();
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+            let postData = JSON.stringify({ email: email, password: password });
+            const API_URL = "http://localhost:8080/login";
+
+            fetch(API_URL, {
+                method: 'POST',
+                body: postData,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'accept': 'application/json'
+                }
+            }).then(res => res.json())
+              .then(data => {
+                    console.log(data);
+                    if (data.msg == "Success"){
+                        sessionStorage.setItem('atkn',data.accessToken);
+                        sessionStorage.setItem('muuid',data.id);
+                        //location.href = 'bbmyplants.html?atkn=' + data.accessToken +'&muuid='+data.id;
+                        location.href = 'bbmyplants.html';
+                    } else { 
+                        alert(data.msg);
+                    }
+            }).catch (error => {
+                console.log(error)
+            })
+        }
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            post();
+        })
+    </script>
+</body>
+
+</html>
