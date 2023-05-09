@@ -105,7 +105,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
                     <li class="nav-item px-3">
-                        <a class="nav-link active" aria-current="page" href="bbmyplants.html">My Plants</a>
+                        <a class="nav-link active" aria-current="page" href="myplants.html">My Plants</a>
                     </li>
                     <li class="nav-item px-3">
                         <a class="nav-link">Contact</a>
@@ -120,7 +120,7 @@
                             </li>
 
                             <li>
-                                <a class="dropdown-item" href="bbhome.html">Log out</a>
+                                <a class="dropdown-item" href="index.html">Log out</a>
                             </li>
                         </ul>
                     </li>
@@ -131,7 +131,7 @@
 
     <div class="container grid-cont ">
         <div class="d-flex justify-content-between">
-                <a href="bbmyplants.html" class="btn btn-lg"
+                <a href="myplants.html" class="btn btn-lg"
                 style="background-color:white; color:#5f7616; border-color: #5f7616;">Back</a>
                 <button class="btn btn-lg"
                 style="background-color:white; color:#5f7616; border-color: #5f7616;">Edit Plant</button>
@@ -156,9 +156,6 @@
         let pid = params.get('pid');
         let atkn = sessionStorage.getItem('atkn');
         let muuid = sessionStorage.getItem('muuid');
-        console.log(atkn);
-        console.log(muuid);
-        console.log(pid);
 
         const API_URL = "http://localhost:8080/plants/" + pid + "/plant/info";
         fetch(API_URL, {
@@ -170,13 +167,16 @@
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 let tdata = '';
                 labels = [];
                 wtrlevels = [];
                 temps = [];
                 mstlevels = [];
+                let dateformat = '';
                 data.forEach((val, ind) => {
+                    dateformat = ''; //reformat date
+                    dateformat = val.posted.$date.substr(5,2) + '/' + val.posted.$date.substr(8,2)
+                    + '/' + val.posted.$date.substr(2,2) + ' ' + val.posted.$date.substr(11,5);
                     if (ind == 0) {
                         tdata += `<div class="col col-12 col-sm-12 col-md-6 no-pad">
                                         <div class="card text-center ">
@@ -208,21 +208,17 @@
                                                     <br>
                                                 </div>
                                                 <div class="card-footer text-muted">
-                                                    Posted at: ${val.posted.$date}
+                                                    Posted at: ${dateformat}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>`;
                     }
-                    labels.push(val.posted.$date);
+                    labels.push(dateformat);
                     wtrlevels.push(val.wtrlvl);
                     temps.push(val.tmplvl);
                     mstlevels.push(val.mstlvl);
                 })
-                console.log(labels);
-                console.log(wtrlevels);
-                console.log(temps);
-                console.log(mstlevels);
                 //reverse so its oldest to newest data
                 labels.reverse();
                 wtrlevels.reverse();

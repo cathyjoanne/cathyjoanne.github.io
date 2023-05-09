@@ -1,5 +1,5 @@
+<!-- name, email, password -->
 <html lang="en">
-
 <head>
     <!--bootstrap 5.2-->
     <meta charset="utf-8">
@@ -71,35 +71,41 @@
 <body class="text-center vsc-initialized" data-new-gr-c-s-check-loaded="14.1103.0" data-gr-ext-installed="">
 
     <main class="form-signin w-100 m-auto">
-        <form method="get" id="frm">
+        <form method="post" id="frm">
             <img class="mb-4" src="bbicongreen.png" alt="" width="200" height="200">
             <h1 class="h3 mb-3 fw-normal">Welcome</h1>
+            <small>Please fill out the form below to sign up.</small><br><br>
+
+            <div class="form-floating">
+                <input type="name" class="form-control" id="name" placeholder="Name" required>
+                <label for="floatingInput">Name</label>
+            </div>
+            <br>
 
             <div class="form-floating">
                 <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
                 <label for="floatingInput">Email address</label>
             </div>
-
+            
             <div class="form-floating">
                 <input type="password" class="form-control" id="password" placeholder="Password" required>
                 <label for="floatingPassword">Password</label>
             </div>
-            <input class="w-100 btn btn-lg btn-primary" style="background-color: #5f7616; border-color: #5f7616;"
-                type="submit" value="Log In">
+            <input class="w-100 btn btn-lg btn-primary" style="background-color: #5f7616; border-color: #5f7616;" type="submit" value="Add">
         </form>
 
-        <a href="bbhome.html"><button class="w-100 btn btn-lg"
-                style="background-color:gray; color:white;">Back</button></a>
+        <a href="index.html"><button class="w-100 btn btn-lg" style="background-color:gray; color:white;">Back</button></a> 
     </main>
     <script>
         const form = document.getElementById("frm");
 
         function post() {
             event.preventDefault();
+            let name = document.getElementById("name").value;
             let email = document.getElementById("email").value;
             let password = document.getElementById("password").value;
-            let postData = JSON.stringify({ email: email, password: password });
-            const API_URL = "http://localhost:8080/login";
+            let postData = JSON.stringify({ email: email, name: name, password: password });
+            const API_URL = "http://localhost:8080/signup";
 
             fetch(API_URL, {
                 method: 'POST',
@@ -111,13 +117,12 @@
             }).then(res => res.json())
               .then(data => {
                     console.log(data);
-                    if (data.msg == "Success"){
-                        sessionStorage.setItem('atkn',data.accessToken);
-                        sessionStorage.setItem('muuid',data.id);
-                        //location.href = 'bbmyplants.html?atkn=' + data.accessToken +'&muuid='+data.id;
-                        location.href = 'bbmyplants.html';
-                    } else { 
-                        alert(data.msg);
+                    if (data.msg == "Account exists, please login"){
+                        alert("Account exists, please login");
+                        location.href = 'login.html';
+                    } else if (data.msg == "Successfully registered"){
+                        alert("Successfully registered, please login");
+                        location.href = 'login.html';
                     }
             }).catch (error => {
                 console.log(error)
@@ -130,5 +135,4 @@
         })
     </script>
 </body>
-
 </html>

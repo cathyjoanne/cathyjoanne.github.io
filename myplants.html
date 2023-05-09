@@ -66,7 +66,7 @@
     <nav class="navbar navbar-expand-lg fixed-top bg-light">
         <div class="container-fluid">
             <img style="height:50px;" src="bbicongreen.png">&nbsp;
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="index.html">
                 <h2 style="color:#5f7616;">Botanic Butler</h2>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -80,7 +80,7 @@
                         <a class="nav-link active" aria-current="page" href=#>My Plants</a>
                     </li>
                     <li class="nav-item px-3">
-                        <a class="nav-link">Contact</a>
+                        <a class="nav-link" href="contact.html">Contact</a>
                     </li>
                     <li class="nav-item px-3 dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile </a>
@@ -91,7 +91,7 @@
                             </li>
         
                             <li>
-                                <a class="dropdown-item" href="bbhome.html">Log out</a>
+                                <a class="dropdown-item" href="index.html" onclick="logout()">Log out</a>
                             </li>
                         </ul>
                     </li>
@@ -110,32 +110,46 @@
 
     <script>
 
-        // let params = new URLSearchParams(location.search);
-        // let atkn = params.get('atkn');
-        // let muuid = params.get('muuid');
-        
         let atkn = sessionStorage.getItem('atkn');
         let muuid = sessionStorage.getItem('muuid');
-        console.log(atkn);
-        console.log(muuid);
-
         const API_URL="http://localhost:8080/plants";
-        fetch(API_URL, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': atkn
-            }
-        })
-        .then(res=> res.json())
-        .then(data=>{
-            console.log(data);
+
+        if ((atkn != null) && (muuid != null)){
+            getdata();
+        } else {
+            let tdata='';
+            tdata+=`<div class="main-title">
+                        <h1>Please log in!</h1>
+                        <h5>Not authorized to view this page.</h5>
+                    </div>`;
+            document.getElementById("target").innerHTML=tdata;
+        }
+
+        function getdata(){
+            fetch(API_URL, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': atkn
+                }
+            })
+            .then(res=> res.json())
+            .then(data=>{
             let tdata='';
             if (data.msg == "There are no plants for this owner"){
                 tdata+=`<div class="main-title">
                             <h1>You dont own any plants!</h1>
-                            <h5>Click here to add some</h5>
+                            <h5>Click below to add some</h5>
                         </div>`;
+                tdata+=
+                `<div class="container grid-cont ">
+                    <div class="row g-5 h-100">
+                        <div class="col-lg-3 col-md-6 col-sm-12 mx-auto no-pad">
+                            <div class="card text-center ">
+                                <div class="card-body">
+                                    <h1 class="card-title">Add New Plant</h1>
+                                    <i class="bi bi-file-plus" style="font-size: 200px;"></i>
+                </div></div></div></div></div>`;
             } else {
                 tdata+=`<div class="main-title">
                             <h1>Your Plants</h1>
@@ -153,7 +167,7 @@
                                 <img class="square-image" style="height: 100%; width: 100%; object-fit: contain;" src="https://asset.bloomnation.com/c_pad,d_vendor:global:catalog:product:image.png,f_auto,fl_preserve_transparency,q_auto/v1669783772/vendor/3628/catalog/product/2/0/20200304122155_file_5e5ef4a3ccb60_5e5ef7b7cd5fa_5f0d10df5abcf_5f0d10e1e5345.jpg">
                                 <p class="card-text">Lifetime: ${val.lfttme}</p>
                                 <h6>Status: ${val.status}</h6>
-                                <a href="bbplantdetails.html?pid=${val.id}" class="btn btn-primary"
+                                <a href="plantdetails.html?pid=${val.id}" class="btn btn-primary"
                                     style="background-color:#5f7616; color:white; border-color: #637e85;">See Details</a>
                             </div>
                         </div>
@@ -174,6 +188,12 @@
             }
             document.getElementById("target").innerHTML=tdata;
         })
+        }
+
+        function logout(){
+            sessionStorage.removeItem('atkn');
+            sessionStorage.removeItem('muuid');
+        }
     </script>
 </body>
 
