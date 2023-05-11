@@ -105,22 +105,21 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
                     <li class="nav-item px-3">
-                        <a class="nav-link active" aria-current="page" href="myplants.html">My Plants</a>
+                        <a class="nav-link" href="index.html">Home</a>
                     </li>
                     <li class="nav-item px-3">
-                        <a class="nav-link">Contact</a>
+                        <a class="nav-link active" aria-current="page" href=#>My Plants</a>
                     </li>
                     <li class="nav-item px-3 dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">Profile </a>
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile </a>
                         <!-- Dropdown menu -->
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li>
                                 <a class="dropdown-item" href="#">My account</a>
                             </li>
-
+        
                             <li>
-                                <a class="dropdown-item" href="index.html">Log out</a>
+                                <a class="dropdown-item" href="index.html" onclick="logout()">Log out</a>
                             </li>
                         </ul>
                     </li>
@@ -133,8 +132,8 @@
         <div class="d-flex justify-content-between">
                 <a href="myplants.html" class="btn btn-lg"
                 style="background-color:white; color:#5f7616; border-color: #5f7616;">Back</a>
-                <button class="btn btn-lg"
-                style="background-color:white; color:#5f7616; border-color: #5f7616;">Edit Plant</button>
+                <a href="editplant.html" class="btn btn-lg"
+                style="background-color:white; color:#5f7616; border-color: #5f7616;">Edit Plant</a>
         </div>
         <div class="row" id="target">
         </div>
@@ -157,7 +156,8 @@
         let atkn = sessionStorage.getItem('atkn');
         let muuid = sessionStorage.getItem('muuid');
 
-        const API_URL = "http://localhost:8080/plants/" + pid + "/plant/info";
+        //const API_URL = "http://localhost:8080/plants/" + pid + "/plant/info";
+        const API_URL = "https://cse123-bb.com/api/plants/" + pid + "/plant/info";
         fetch(API_URL, {
             method: 'GET',
             headers: {
@@ -182,7 +182,7 @@
                                         <div class="card text-center ">
                                             <div class="card-body">
                                                 <img class="square-image" style="height: 100%; width: 100%; object-fit: contain;"
-                                                    src="https://www.ikea.com/us/en/images/products/crassula-ovata-potted-plant-money-tree__0574166_pe668124_s5.jpg?f=s">
+                                                    src="https://asset.bloomnation.com/c_pad,d_vendor:global:catalog:product:image.png,f_auto,fl_preserve_transparency,q_auto/v1669783772/vendor/3628/catalog/product/2/0/20200304122155_file_5e5ef4a3ccb60_5e5ef7b7cd5fa_5f0d10df5abcf_5f0d10e1e5345.jpg">
                                             </div>
                                         </div>
                                     </div>
@@ -271,6 +271,11 @@
                 });
                 document.getElementById("target").innerHTML = tdata;
             })
+    
+        function logout(){
+            sessionStorage.removeItem('atkn');
+            sessionStorage.removeItem('muuid');
+        }
     </script>
 </body>
 

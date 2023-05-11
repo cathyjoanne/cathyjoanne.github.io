@@ -105,7 +105,7 @@
             let email = document.getElementById("email").value;
             let password = document.getElementById("password").value;
             let postData = JSON.stringify({ email: email, name: name, password: password });
-            const API_URL = "http://localhost:8080/signup";
+            const API_URL = "https://cse123-bb.com/api/signup";
 
             fetch(API_URL, {
                 method: 'POST',
