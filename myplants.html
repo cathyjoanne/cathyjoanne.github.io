@@ -74,28 +74,7 @@
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
-                    <li class="nav-item px-3">
-                        <a class="nav-link" href="index.html">Home</a>
-                    </li>
-                    <li class="nav-item px-3">
-                        <a class="nav-link active" aria-current="page" href=#>My Plants</a>
-                    </li>
-                    <li class="nav-item px-3 dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile </a>
-                        <!-- Dropdown menu -->
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            <li>
-                                <a class="dropdown-item" href="#">My account</a>
-                            </li>
-        
-                            <li>
-                                <a class="dropdown-item" href="index.html" onclick="logout()">Log out</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+            <div class="responsivenav collapse navbar-collapse" id="navbarSupportedContent">
             </div>
         </div>
     </nav>
@@ -113,6 +92,38 @@
         let atkn = sessionStorage.getItem('atkn');
         let muuid = sessionStorage.getItem('muuid');
         const API_URL="https://cse123-bb.com/api/plants";
+
+        let ndata = '';
+        if ((atkn != null) && (muuid != null)){
+            ndata = `<ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
+                    <li class="nav-item px-3">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item px-3">
+                        <a class="nav-link active" aria-current="page" href="myplants.html">My Plants</a>
+                    </li>
+                    <li class="nav-item px-3 dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile </a>
+                        <!-- Dropdown menu -->
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" href="#">Settings</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="index.html" onclick="logout()">Log out</a>
+                    </li></ul></li></ul>`;
+        } else {
+            ndata = `<ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
+                    <li class="nav-item px-3">
+                        <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                    </li>
+                </ul>
+                <a href="login.html"><button class="btn btn-light ms-3"
+                        style="background-color:#5f7616; color:white; border-color: #5f7616;">LOG IN</button></a>
+                <a href="signup.html">
+                    <button class="btn btn-light ms-3" style="background-color:gray; color:white;">SIGN UP</button></a>`;
+        }
+        document.getElementsByClassName("responsivenav")[0].innerHTML = ndata;
 
         if ((atkn != null) && (muuid != null)){
             getdata();
@@ -161,13 +172,16 @@
                         <div class="container grid-cont ">
                             <div class="row g-5 h-100">`;
                 data.forEach((val,ind)=>{
+                    dateformat = ''; //reformat date
+                    dateformat = val.watering.substr(5,2) + '/' + val.watering.substr(8,2)
+                    + '/' + val.watering.substr(2,2) + ' ' + val.watering.substr(11,5);
                     tdata+=
                     `<div class="col-lg-3 col-md-6 col-sm-12 mx-auto no-pad">
                         <div class="card text-center ">
                             <div class="card-body">
                                 <h5 class="card-title">${val.name}</h5>
                                 <img class="square-image" style="height: 100%; width: 100%; object-fit: contain;" src="https://asset.bloomnation.com/c_pad,d_vendor:global:catalog:product:image.png,f_auto,fl_preserve_transparency,q_auto/v1669783772/vendor/3628/catalog/product/2/0/20200304122155_file_5e5ef4a3ccb60_5e5ef7b7cd5fa_5f0d10df5abcf_5f0d10e1e5345.jpg">
-                                <p class="card-text">Lifetime: ${val.lfttme}</p>
+                                <p class="card-text">Last Watered: <br>${dateformat}</p>
                                 <h6>Status: ${val.status}</h6>
                                 <a href="plantdetails.html?pid=${val.id}" class="btn btn-primary"
                                     style="background-color:#5f7616; color:white; border-color: #637e85;">See Details</a>
@@ -184,7 +198,7 @@
                                 <i class="bi bi-file-plus" style="font-size: 200px;"></i>
                 </div></div></a></div>`;
                 tdata+=`</div></div><br>
-                        <h2 class="text-center">Some random plant fact idk</h2>
+                        <h2 class="text-center">Plants take care of you too!</h2>
                         <br>`;
             }
             document.getElementById("target").innerHTML=tdata;

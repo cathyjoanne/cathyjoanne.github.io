@@ -108,16 +108,17 @@
                         <a class="nav-link" href="index.html">Home</a>
                     </li>
                     <li class="nav-item px-3">
-                        <a class="nav-link active" aria-current="page" href=#>My Plants</a>
+                        <a class="nav-link active" aria-current="page" href="myplants.html">My Plants</a>
                     </li>
                     <li class="nav-item px-3 dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile </a>
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">Profile </a>
                         <!-- Dropdown menu -->
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li>
-                                <a class="dropdown-item" href="#">My account</a>
+                                <a class="dropdown-item" href="#">Settings</a>
                             </li>
-        
+
                             <li>
                                 <a class="dropdown-item" href="index.html" onclick="logout()">Log out</a>
                             </li>
@@ -129,12 +130,9 @@
     </nav>
 
     <div class="container grid-cont ">
-        <div class="d-flex justify-content-between">
-                <a href="myplants.html" class="btn btn-lg"
-                style="background-color:white; color:#5f7616; border-color: #5f7616;">Back</a>
-                <a href="editplant.html" class="btn btn-lg"
-                style="background-color:white; color:#5f7616; border-color: #5f7616;">Edit Plant</a>
+        <div class="d-flex justify-content-between" id="buttons">
         </div>
+
         <div class="row" id="target">
         </div>
         <div class="row">
@@ -155,8 +153,39 @@
         let pid = params.get('pid');
         let atkn = sessionStorage.getItem('atkn');
         let muuid = sessionStorage.getItem('muuid');
+        
+        if ((atkn == null) || (muuid == null)){
+            location.href = "index.html";
+        }
 
-        //const API_URL = "http://localhost:8080/plants/" + pid + "/plant/info";
+        let bdata = '';
+        if (window.screen.width <= 400) {
+            console.log()
+            //link for buttons
+            bdata = `<a href="myplants.html" class="btn btn-sm"
+                    style="background-color:white; color:#5f7616; border-color: #5f7616;">Back</a>
+
+                    <div>
+                    <a href="editplant.html?pid=${pid}" class="btn btn-sm"
+                    style="background-color:white; color:#5f7616; border-color: #5f7616;">Edit Plant</a>
+
+                    <button type="button" class="btn btn-danger btn-sm" onclick="delete_plant()">
+                        Delete Plant</button>
+                    </div>`;
+        } else {
+            bdata = `<a href="myplants.html" class="btn btn-lg"
+                    style="background-color:white; color:#5f7616; border-color: #5f7616;">Back</a>
+
+                    <div>
+                    <a href="editplant.html?pid=${pid}" class="btn btn-lg"
+                    style="background-color:white; color:#5f7616; border-color: #5f7616;">Edit Plant</a>
+                    
+                    <button type="button" class="btn btn-danger btn-lg" onclick="delete_plant()">
+                        Delete Plant</button>
+                    </div>`;
+        }
+        document.getElementById("buttons").innerHTML = bdata;
+
         const API_URL = "https://cse123-bb.com/api/plants/" + pid + "/plant/info";
         fetch(API_URL, {
             method: 'GET',
@@ -167,6 +196,7 @@
         })
             .then(res => res.json())
             .then(data => {
+                console.log(data);
                 let tdata = '';
                 labels = [];
                 wtrlevels = [];
@@ -175,8 +205,8 @@
                 let dateformat = '';
                 data.forEach((val, ind) => {
                     dateformat = ''; //reformat date
-                    dateformat = val.posted.$date.substr(5,2) + '/' + val.posted.$date.substr(8,2)
-                    + '/' + val.posted.$date.substr(2,2) + ' ' + val.posted.$date.substr(11,5);
+                    dateformat = val.posted.$date.substr(5, 2) + '/' + val.posted.$date.substr(8, 2)
+                        + '/' + val.posted.$date.substr(2, 2) + ' ' + val.posted.$date.substr(11, 5);
                     if (ind == 0) {
                         tdata += `<div class="col col-12 col-sm-12 col-md-6 no-pad">
                                         <div class="card text-center ">
@@ -191,7 +221,6 @@
                                             <div class="card text-center">
                                                 <div class="card-body">
                                                     <h1 class="card-title"><i>${val.name}</i></h1>
-                                                    <p>plant type</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -271,10 +300,27 @@
                 });
                 document.getElementById("target").innerHTML = tdata;
             })
-    
-        function logout(){
+
+        function logout() {
             sessionStorage.removeItem('atkn');
             sessionStorage.removeItem('muuid');
+        }
+
+        function delete_plant() {
+            if (window.confirm("Are you sure you want to delete this plant?")){
+                let dAPI_URL = "https://cse123-bb.com/api/plants/" + pid + "/plant/delete";
+                fetch(dAPI_URL, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': atkn
+                    }
+                })
+                    .then(res => res.json())
+                    .then(data => {
+
+                    })
+            }
         }
     </script>
 </body>
