@@ -109,15 +109,15 @@
                         <a class="nav-link" href="index.html">Home</a>
                     </li>
                     <li class="nav-item px-3">
-                        <a class="nav-link active" aria-current="page" href="myplants.html">My Plants</a>
+                        <a class="nav-link" href="myplants.html">My Plants</a>
                     </li>
                     <li class="nav-item px-3 dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        <a class="nav-link dropdown-toggle active" aria-current="page" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">Profile </a>
                         <!-- Dropdown menu -->
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li>
-                                <a class="dropdown-item" href="#">Settings</a>
+                                <a class="dropdown-item" href="settings.html">Settings</a>
                             </li>
 
                             <li>
@@ -131,60 +131,57 @@
     </nav>
 
     <main class="form-signin w-100 m-auto">
+        <h2 style="color:white">Change Profile Info</h2>
         <form method="get" id="frm">
             <div class="mb-3" style="margin-top: 130px;">
-                <label class="form-label" style="color:white">Change Plant Name</label>
-                <input type="text" class="form-control" id="pname"
+                <label class="form-label" style="color:white">New User Name</label>
+                <input type="name" class="form-control" id="uname"
                     placeholder="Enter new name here" required>
             </div>
             <div class="mb-3">
-                <label class="form-label" style="color:white">Change Data Schedule </label>
-                <input type="number" class="form-control" id="occurrence"
-                    placeholder="Enter new frequency here" required>
+                <label class="form-label" style="color:white">New Email </label>
+                <input type="email" class="form-control rounded" id="email"
+                    placeholder="Enter new email here" required>
             </div>
             <div class="mb-3">
-                <label class="form-label" style="color:white">Change Watering Schedule </label>
-                <input type="number" class="form-control" id="water"
-                    placeholder="Enter new frequency here" required>
+                <label class="form-label" style="color:white">Old Password </label>
+                <input type="password" class="form-control rounded" id="oldpass"
+                    placeholder="Enter old password here" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" style="color:white">New Password </label>
+                <input type="password" class="form-control rounded" id="newpass"
+                    placeholder="Enter new password here" required>
             </div>
             <input class="w-100 btn btn-lg btn-primary" style="background-color: #5f7616; border-color: #5f7616;"
-                type="submit" value="Submit">
+                type="submit" value="Update Profile">
         </form>
 
-        <button class="w-100 btn btn-lg" onclick="back()"
-            style="background-color:gray; color:white; margin-top: 2px;">Back</button>
+        <button class="w-100 btn btn-lg btn-danger" onclick="back()"
+            style="margin-top: 2px;">Delete Profile</button>
     </main>
 
     <script>
         const form = document.getElementById("frm");
-
-        let params = new URLSearchParams(location.search);
-        let pid = params.get('pid');
+        
         let atkn = sessionStorage.getItem('atkn');
         let muuid = sessionStorage.getItem('muuid');
-        if ((atkn == null) || (muuid == null)){
-            location.href = "index.html";
-        }
-        const API_URL = "https://cse123-bb.com/api/plants/" + pid + "/plant/update";
+        // if ((atkn == null) || (muuid == null)){
+        //     location.href = "index.html";
+        // }
+        const API_URL = "https://cse123-bb.com/api/profile/update";
 
-        let pname;
-        let occurrence;
-        let water;
+        let uname = document.getElementById("uname").value;
+        let email = document.getElementById("email").value;
+        let oldpass = document.getElementById("oldpass").value;
+        let newpass = document.getElementById("newpass").value;
 
         function post() {
             event.preventDefault();
-            let postdata;
-            // if (occurrence == ""){
-            //     postData = JSON.stringify({ name: pname });
-            // } else if (pname == ""){
-            //     postData = JSON.stringify({ occurrence: Number(occurrence) });
-            // } else {
-            //     postData = JSON.stringify({ name: pname, occurrence: Number(occurrence) });
-            // }
-            postData = JSON.stringify({ name: pname, data_schedule: Number(occurrence), water_schedule: Number(water) });
+            let postData = JSON.stringify({ name: uname, email: email, old_pwd: oldpass, new_pwd: newpass});
             console.log(postData);
             fetch(API_URL, {
-                method: 'POST',
+                method: 'PUT',
                 body: postData,
                 headers: {
                     'Content-Type': 'application/json',
@@ -194,25 +191,15 @@
                 .then(data => {
                     console.log(data);
                     alert(data.msg);
-                    if (data.msg == "Update Sucessful"){
-                        console.log("yuhh");
-                        location.href = 'plantdetails.html?pid=' + pid;
-                    }
+                    //location.href = 'plantdetails.html?pid=' + pid;
                 }).catch(error => {
                     console.log(error)
                 })
         }
 
         form.addEventListener('submit', function (event) {
-            pname = document.getElementById("pname").value;
-            occurrence = document.getElementById("occurrence").value;
-            water = document.getElementById("water").value;
             event.preventDefault();
-            if ((pname=="")&(occurrence=="")){
-                alert("Please change input.");
-            } else {
-                post();
-            }
+            post();
         })
 
         function back(){

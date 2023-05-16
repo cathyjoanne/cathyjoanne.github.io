@@ -153,8 +153,8 @@
         let pid = params.get('pid');
         let atkn = sessionStorage.getItem('atkn');
         let muuid = sessionStorage.getItem('muuid');
-        
-        if ((atkn == null) || (muuid == null)){
+
+        if ((atkn == null) || (muuid == null)) {
             location.href = "index.html";
         }
 
@@ -198,17 +198,24 @@
             .then(data => {
                 console.log(data);
                 let tdata = '';
-                labels = [];
+                dates = [];
                 wtrlevels = [];
                 temps = [];
                 mstlevels = [];
                 let dateformat = '';
-                data.forEach((val, ind) => {
-                    dateformat = ''; //reformat date
-                    dateformat = val.posted.$date.substr(5, 2) + '/' + val.posted.$date.substr(8, 2)
-                        + '/' + val.posted.$date.substr(2, 2) + ' ' + val.posted.$date.substr(11, 5);
-                    if (ind == 0) {
-                        tdata += `<div class="col col-12 col-sm-12 col-md-6 no-pad">
+                let plantname = '';
+                data.forEach((bigval, bigind) => {
+                    if (bigind == 0) {
+                        plantname = bigval.name;
+                    } else {
+
+                        bigval.forEach((val, ind) => {
+                            dateformat = ''; //reformat date
+                            dateformat = val.posted.$date.substr(5, 2) + '/' + val.posted.$date.substr(8, 2)
+                                + '/' + val.posted.$date.substr(2, 2) + ' ' + val.posted.$date.substr(11, 5);
+
+                            if (ind == 0) {
+                                tdata += `<div class="col col-12 col-sm-12 col-md-6 no-pad">
                                         <div class="card text-center ">
                                             <div class="card-body">
                                                 <img class="square-image" style="height: 100%; width: 100%; object-fit: contain;"
@@ -220,7 +227,7 @@
                                         <div class="row p-2">
                                             <div class="card text-center">
                                                 <div class="card-body">
-                                                    <h1 class="card-title"><i>${val.name}</i></h1>
+                                                    <h1 class="card-title"><i>${plantname}</i></h1>
                                                 </div>
                                             </div>
                                         </div>
@@ -229,8 +236,7 @@
                                                 <div class="card-body">
                                                     <br>
                                                     <h3 class="card-text"><b>Health:</b> ${val.health}</h3>
-                                                    <h3 class="card-text"><b>Lifetime:</b> ${val.lfttme}</h3>
-                                                    <h3 class="card-text"><b>Last Watered:</b> ${val.wtrtme} min ago</h3>
+                                                    <h3 class="card-text"><b>Last Watered:</b> ${dateformat}</h3>
                                                     <h3 class="card-text"><b>Water Tank Level:</b> ${val.wtrlvl}mL</h3>
                                                     <h3 class="card-text"><b>Temperature:</b> ${val.tmplvl}°F</h3>
                                                     <h3 class="card-text"><b>Moisture Level:</b> ${val.mstlvl} units</h3>
@@ -242,21 +248,23 @@
                                             </div>
                                         </div>
                                     </div>`;
+                            }
+                            dates.push(dateformat);
+                            wtrlevels.push(val.wtrlvl);
+                            temps.push(val.tmplvl);
+                            mstlevels.push(val.mstlvl);
+                        })
                     }
-                    labels.push(dateformat);
-                    wtrlevels.push(val.wtrlvl);
-                    temps.push(val.tmplvl);
-                    mstlevels.push(val.mstlvl);
                 })
                 //reverse so its oldest to newest data
-                labels.reverse();
+                dates.reverse();
                 wtrlevels.reverse();
                 temps.reverse();
                 mstlevels.reverse
                 new Chart(document.getElementById("bar-chart"), {
                     type: 'line',
                     data: {
-                        labels: labels,
+                        labels: dates,
                         datasets: [
                             {
                                 label: "Water Tank Level",
@@ -307,7 +315,7 @@
         }
 
         function delete_plant() {
-            if (window.confirm("Are you sure you want to delete this plant?")){
+            if (window.confirm("Are you sure you want to delete this plant?")) {
                 let dAPI_URL = "https://cse123-bb.com/api/plants/" + pid + "/plant/delete";
                 fetch(dAPI_URL, {
                     method: 'DELETE',

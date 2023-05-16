@@ -180,6 +180,7 @@
             let schedule = document.getElementById("schedule").value;
 
             let postData = JSON.stringify({ name: pname, plant_id: pid, usage: usage, schedule: Number(schedule) });
+            console.log(postData);
             fetch(API_URL, {
                 method: 'POST',
                 body: postData,
