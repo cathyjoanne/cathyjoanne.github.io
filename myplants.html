@@ -172,9 +172,9 @@
                         <div class="container grid-cont ">
                             <div class="row g-5 h-100">`;
                 data.forEach((val,ind)=>{
-                    dateformat = ''; //reformat date
-                    dateformat = val.posted.substr(0,2) + '/' + val.posted.substr(8,2)
-                    + '/' + val.posted.substr(2,2) + ' ' + val.posted.substr(11,5);
+                    options = { day: 'numeric', year: '2-digit', month: 'numeric', hour: 'numeric', minute:'numeric', hour12: 'false' };
+                    posteddate = new Date(val.posted);
+                    dateformat = posteddate.toLocaleString("en-US", options);
                     tdata+=
                     `<div class="col-lg-3 col-md-6 col-sm-12 mx-auto no-pad">
                         <div class="card text-center ">

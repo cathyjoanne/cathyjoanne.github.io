@@ -210,9 +210,9 @@
                     } else {
 
                         bigval.forEach((val, ind) => {
-                            dateformat = ''; //reformat date
-                            dateformat = val.posted.$date.substr(5, 2) + '/' + val.posted.$date.substr(8, 2)
-                                + '/' + val.posted.$date.substr(2, 2) + ' ' + val.posted.$date.substr(11, 5);
+                            options = { day: 'numeric', year: '2-digit', month: 'numeric', hour: 'numeric', minute:'numeric', hour12: 'false' };
+                            posteddate = new Date(val.posted.$date);
+                            dateformat = posteddate.toLocaleString("en-US", options);
 
                             if (ind == 0) {
                                 tdata += `<div class="col col-12 col-sm-12 col-md-6 no-pad">
