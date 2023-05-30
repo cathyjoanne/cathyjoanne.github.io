@@ -173,8 +173,7 @@
                             <div class="row g-5 h-100">`;
                 data.forEach((val,ind)=>{
                     dateformat = ''; //reformat date
-                    dateformat = val.posted.substr(5,2) + '/' + val.posted.substr(8,2)
-                    + '/' + val.posted.substr(2,2) + ' ' + val.posted.substr(11,5);
+                    dateformat = val.posted;
                     tdata+=
                     `<div class="col-lg-3 col-md-6 col-sm-12 mx-auto no-pad">
                         <div class="card text-center ">
