@@ -160,7 +160,7 @@
             var imgdata = new FormData()
             imgdata.append('file', img)
             
-            const imgAPI_URL = "https://cse123-bb.com/api/plants/" + pid + "/image/upload";
+            const imgAPI_URL = "https://cse123-bb.com/api/plant/" + pid + "/image/upload";
             fetch(imgAPI_URL, {
                 method: 'PUT',
                 body: imgdata,
