@@ -154,6 +154,24 @@
         let atkn = sessionStorage.getItem('atkn');
         let muuid = sessionStorage.getItem('muuid');
 
+        //getting plant image from server
+        function hexToBase64(str) {
+            return btoa(String.fromCharCode.apply(null, str.replace(/\r|\n/g, "").replace(/([\da-fA-F]{2}) ?/g, "0x$1 ").replace(/ +$/, "").split(" ")));
+        }
+        var img1 = document.createElement("img");
+        const getimgAPI_URL = "https://cse123-bb.com/api/plant/" + pid + "/image";
+        fetch(getimgAPI_URL, {
+            method: 'GET',
+            headers: {
+                'Authorization': atkn
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                img1.src = 'data:image/jpeg;base64,' + hexToBase64(data);
+                document.body.appendChild(img1);
+            });
+
         function loadFile() {
             let img = document.getElementById("file").files[0];
             console.log(img);
