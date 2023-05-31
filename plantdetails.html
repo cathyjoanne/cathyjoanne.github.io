@@ -149,16 +149,21 @@
 
     <script>
 
-        
+        let params = new URLSearchParams(location.search);
+        let pid = params.get('pid');
+        let atkn = sessionStorage.getItem('atkn');
+        let muuid = sessionStorage.getItem('muuid');
 
         function loadFile() {
             let img = document.getElementById("file").files[0];
             console.log(img);
+            var imgdata = new FormData()
+            imgdata.append('file', img)
             
             const imgAPI_URL = "https://cse123-bb.com/api/plants/" + pid + "/image/upload";
             fetch(imgAPI_URL, {
                 method: 'PUT',
-                body: img,
+                body: imgdata,
                 headers: {
                     'Authorization': atkn
                 }
@@ -167,12 +172,7 @@
                 .then(data => {
                     console.log(data)
                 });
-        };
-
-        let params = new URLSearchParams(location.search);
-        let pid = params.get('pid');
-        let atkn = sessionStorage.getItem('atkn');
-        let muuid = sessionStorage.getItem('muuid');
+        }
 
         if ((atkn == null) || (muuid == null)) {
             location.href = "index.html";
