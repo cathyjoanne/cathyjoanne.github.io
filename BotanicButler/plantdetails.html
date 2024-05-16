@@ -276,12 +276,6 @@
                             dateformat = posteddate.toLocaleString("en-US", options);
 
                             if (ind == 0) {
-                                let wtrstr;
-                                if(val.wtrlvl > 50){
-                                    wtrstr = "OK"
-                                }else{
-                                    wtrstr = "Empty"
-                                }
                                 tdata += `<div class="col col-12 col-sm-12 col-md-6 no-pad">
                                         <div class="card text-center ">
                                             <div class="card-body">
@@ -307,7 +301,7 @@
                                                     <br>
                                                     <h3 class="card-text"><b>Health:</b> ${val.health}</h3>
                                                     <h3 class="card-text"><b>Last Watered:</b> ${dateformat}</h3>
-                                                    <h3 class="card-text"><b>Water Tank Level:</b> ${wtrstr}</h3>
+                                                    <h3 class="card-text"><b>Water Tank Level:</b> ${val.wtrlvl}mL</h3>
                                                     <h3 class="card-text"><b>Temperature:</b> ${val.tmplvl}°C</h3>
                                                     <h3 class="card-text"><b>Moisture Level:</b> ${val.mstlvl}%</h3>
                                                     <h3 class="card-text"><b>Humidity Level:</b> ${val.humlvl}%</h3>
