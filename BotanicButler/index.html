@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!--bootstrap 5.2-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+    <title>Botanic Butler</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <style>
+        .caro-img {
+            height: 520px;
+            object-position: bottom;
+            object-fit: cover;
+        }
+
+        .text-center {
+            color: #637e85;
+        }
+
+        .main-title {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, 0%);
+            color: white;
+            font-weight: 800;
+            font-family: 'Trebuchet MS';
+            text-align: center;
+            width: 96.6667%;
+        }
+
+        .card:hover {
+            transform: scale(1.07);
+        }
+
+        .card {
+            border-color: #f0f0f0;
+            background-color: #f6f6f6;
+            transition: transform .7s;
+            border-radius: 15px;
+        }
+
+        .no-pad {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .grid-cont {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top bg-light">
+        <div class="container-fluid">
+            <img style="height:50px;" src="bbicongreen.png">&nbsp;
+            <a class="navbar-brand" href="index.html">
+                <H2 style="color:#5f7616;">Botanic Butler</H2>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="responsivenav collapse navbar-collapse" id="navbarSupportedContent">
+            </div>
+        </div>
+    </nav>
+
+    <div class="col-md-12">
+        <img src="https://c0.wallpaperflare.com/path/691/526/546/5be97e91018b2-a78f4224ef55bfdadf4244b131516755.jpg"
+            class="w-100 caro-img" alt="leaves">
+    </div>
+    <div class="main-title">
+        <img style="height:120px;" src="bbicon.png">
+        <h1>Welcome to<br />Botanic Butler</h1>
+        <h5>The remote plant care system</h5>
+        <!-- <i class="bi bi-arrow-down-circle-fill" style="color:white; font-size: 3rem;"></i> -->  
+    </div>
+
+    <div id="message">
+
+    </div>
+    
+
+    <script>
+        let atkn = sessionStorage.getItem('atkn');
+        let muuid = sessionStorage.getItem('muuid');
+
+        let tdata = '';
+        let mdata = '';
+        if ((atkn != null) && (muuid != null)){
+            tdata = `<ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
+                    <li class="nav-item px-3">
+                        <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item px-3">
+                        <a class="nav-link" href="myplants.html">My Plants</a>
+                    </li>
+                    <li class="nav-item px-3 dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Profile </a>
+                        <!-- Dropdown menu -->
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" href="settings.html">Settings</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="index.html" onclick="logout()">Log out</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>`;
+            mdata = `<h2 class="text-center"><br />Thank you for using Botanic Butler :)</h2>
+                    <h5 class="text-center">Click 'My Plants' at the top of the page to view your plants.
+                    </h5>`;
+        } else {
+            tdata = `<ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
+                    <li class="nav-item px-3">
+                        <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                    </li>
+                </ul>
+                <a href="login.html"><button class="btn btn-light ms-3"
+                        style="background-color:#5f7616; color:white; border-color: #5f7616;">LOG IN</button></a>
+                <a href="signup.html">
+                    <button class="btn btn-light ms-3" style="background-color:gray; color:white;">SIGN UP</button></a>`;
+            mdata = `<h2 class="text-center"><br />Just bought your Botanic Butler?</h2>
+                    <h5 class="text-center">Just log in or sign up at the top of the page and follow the instructions that came with your device.
+                    </h5>`;
+        }
+        document.getElementsByClassName("responsivenav")[0].innerHTML = tdata;
+        document.getElementById("message").innerHTML=mdata;
+
+        function logout(){
+            sessionStorage.removeItem('atkn');
+            sessionStorage.removeItem('muuid');
+        }
+    </script>
+</body>
+
+</html>
