@@ -14,6 +14,9 @@
                 font-family: Windows;
                 src: url(WindowsFont.ttf);
             }
+            * {
+                font-family: Windows;
+            }
             #test {
                 border: 1px solid black;
             }
@@ -33,6 +36,15 @@
                 
             }
             #WindowsButton {
+                margin-left: 5px;
+                border: 3px solid;
+                border-color: #e1dfe2 #2c292a #2c292a #e1dfe2;
+                display: inline;
+                text-decoration: none;
+                color: black;
+                inline-size: fit-content;
+            }
+            #popupmini {
                 margin-left: 5px;
                 border: 3px solid;
                 border-color: #e1dfe2 #2c292a #2c292a #e1dfe2;
@@ -64,6 +76,19 @@
                 background-color: #a1a39f;
                 border-color: #2c292a #e1dfe2 #e1dfe2 #2c292a ;
             }
+            #popup{
+                border: 3px solid;
+                background: #c0c0c2;
+                border-color: #e1dfe2 #2c292a #2c292a #e1dfe2;
+                margin: 10px;
+
+            }
+            #popupheader{
+                margin: 2px;
+                padding: 2px;
+                background: #000080;
+                color: #e1dfe2;
+            }
             @media screen and (max-width: 980px) {
                 #bigscreen {
                     display: none;
@@ -86,19 +111,23 @@
                 One of three columns
               </div>
               <div class="col-md-12 col-lg-6" id="test">
-                this is a wip below is the inspo - windows 95
-                <img src="desktop.png">
-                <img src="desktop.png">
-                <img src="desktop.png">
-                <img src="desktop.png">
-                <img src="desktop.png">
-                <img src="desktop.png">
-                <img src="desktop.png">
-                <img src="desktop.png">
-                <img src="desktop.png">
-                <img src="desktop.png">
-                <img src="desktop.png">
-                <img src="desktop.png">
+                <div id="popup">
+                    <div id="popupheader">
+                        &nbsp;Welcome!
+                        <div id="popupmini" style=""></div>
+                    </div>
+                    <div style="margin: 5px;">
+                        Cat ipsum dolor sit amet, need to check on human, have not seen in an hour might be dead oh look, human is alive, hiss at human, feed me but sleep. Meow meow we are 3 small kittens sleeping most of our time, we are around 15 weeks old i think, i donâ€™t know i canâ€™t count. Eat the rubberband ptracy somehow manage to catch a bird but have no idea what to do next, so play with it until it dies of shock cat snacks chase red laser dot, my water bowl is clean and freshly replenished, so i'll drink from the toilet but meow. Go into a room to decide you didn't want to be in there anyway experiences short bursts of poo-phoria after going to the loo but cat sit like bread grass smells good paw at beetle and eat it before it gets away but put butt in owner's face the fat cat sat on the mat bat away with paws. Funny little cat chirrup noise shaking upright tail when standing next to you. Take a big fluffing crap ðŸ’© meow meow mama yet make plans to dominate world and then take a nap yet i like cats because they are fat and fluffy yet lay on arms while you're using the keyboard meow. Sniff all the things. Purr for no reason gimme attention gimme attention gimme attention gimme attention gimme attention gimme attention just kidding i don't want it anymore meow bye so peer out window, chatter at birds, lure them to mouth ha ha, you're funny i'll kill you last. I will be pet i will be pet and then i will hiss allways wanting food for sniff catnip and act crazy, but meoooow. Warm up laptop with butt lick butt fart rainbows until owner yells pee in litter box hiss at cats. Drink water out of the faucet zz
+                    </div>
+                </div>
+                <div id="popup">
+                    <div id="popupheader">
+                        &nbsp;blog
+                    </div>
+                    <div style="margin: 5px;">
+                        Cat ipsum dolor sit amet, need to check on human, have not seen in an hour might be dead oh look, human is alive, hiss at human, feed me but sleep. Meow meow we are 3 small kittens sleeping most of our time, we are around 15 weeks old i think, i donâ€™t know i canâ€™t count. Eat the rubberband ptracy somehow manage to catch a bird but have no idea what to do next, so play with it until it dies of shock cat snacks chase red laser dot, my water bowl is clean and freshly replenished, so i'll drink from the toilet but meow. Go into a room to decide you didn't want to be in there anyway experiences short bursts of poo-phoria after going to the loo but cat sit like bread grass smells good paw at beetle and eat it before it gets away but put butt in owner's face the fat cat sat on the mat bat away with paws. Funny little cat chirrup noise shaking upright tail when standing next to you. Take a big fluffing crap ðŸ’© meow meow mama yet make plans to dominate world and then take a nap yet i like cats because they are fat and fluffy yet lay on arms while you're using the keyboard meow. Sniff all the things. Purr for no reason gimme attention gimme attention gimme attention gimme attention gimme attention gimme attention just kidding i don't want it anymore meow bye so peer out window, chatter at birds, lure them to mouth ha ha, you're funny i'll kill you last. I will be pet i will be pet and then i will hiss allways wanting food for sniff catnip and act crazy, but meoooow. Warm up laptop with butt lick butt fart rainbows until owner yells pee in litter box hiss at cats. Drink water out of the faucet zz
+                    </div>
+                </div>
               </div>
               <div class="col-md-3 d-none d-lg-block" id="test">
                 One of three columns
@@ -107,8 +136,14 @@
         </div>
 
         <div style="height: 65px;">
-            you cant see this (footer allowance)
+            
         </div>
+
+
+
+
+
+
 
         <div id="footer">
             <div id="WindowsButton">
