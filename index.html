@@ -64,6 +64,16 @@
                 background-color: #a1a39f;
                 border-color: #2c292a #e1dfe2 #e1dfe2 #2c292a ;
             }
+            @media screen and (max-width: 980px) {
+                #bigscreen {
+                    display: none;
+                }
+            }
+            @media screen and (min-width: 980px) {
+                #smallscreen {
+                    display: none;
+                }
+            }
         </style>
         
     </head>
@@ -106,10 +116,31 @@
                 Start&nbsp;
             </div>
             <div id="Splitter"></div>
-            <a id="WindowsButton" href="#">
-                <img style="height: 30px;" src="duck.png">
-                Home&nbsp;
-            </a>
+
+            <span id="bigscreen">
+                <a id="WindowsButton" href="#">
+                    &nbsp;<img style="height: 30px;" src="home.png">
+                    Home&nbsp;
+                </a>
+            </span>
+            <span id="smallscreen">
+                <a href="#" style="text-decoration: none;">
+                    &nbsp;<img style="height: 30px;" src="home.png">
+                </a>
+            </span>
+
+            <span id="bigscreen">
+                <a id="WindowsButton" href="#">
+                    &nbsp;<img style="height: 30px;" src="home.png">
+                    Home&nbsp;
+                </a>
+            </span>
+            <span id="smallscreen">
+                <a href="#" style="text-decoration: none;">
+                    &nbsp;<img style="height: 30px;" src="home.png">
+                </a>
+            </span>
+        
             <div id="Splitter"></div>
             <div id="time">
                 <span id="clock"></span>
