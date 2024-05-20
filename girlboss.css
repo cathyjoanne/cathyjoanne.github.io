@@ -6,7 +6,10 @@
     font-family: Windows;
 }
 body {
-    background-color:#008081;
+    background-color:#ecedff;
+    background-image: url("pics/hand-drawn-rainbow-glitter-backg.jpg");
+    background-size: cover;
+    background-repeat: repeat-y;
 }
 #test {
     border: 1px solid black;
@@ -17,8 +20,8 @@ body {
     width: 100%;
     height: 65px;
 
-    background: #c0c0c2;
-    border: 3px #e1dfe2;
+    background: #6f3dff;
+    border: 3px #ba95fe;
     border-style: solid none none solid;
     line-height: 2;
     font-size: 30px;
@@ -29,7 +32,7 @@ body {
 #WindowsButton {
     margin-left: 5px;
     border: 3px solid;
-    border-color: #e1dfe2 #2c292a #2c292a #e1dfe2;
+    border-color: #ba95fe #1a1d7f #1a1d7f #ba95fe;
     display: inline;
     text-decoration: none;
     color: black;
@@ -43,7 +46,7 @@ body {
     height:22px;
     width:22px;
     border: 2px solid;
-    border-color: #e1dfe2 #2c292a #2c292a #e1dfe2;
+    border-color: #ba95fe #1a1d7f #1a1d7f #ba95fe;
     text-align: center;
     float:right;
     vertical-align: middle;
@@ -57,7 +60,7 @@ body {
     font-size: 25px;
     margin-left: 5px;
     border: 3px solid;
-    border-color: #e1dfe2 #a1a39f #a1a39f #e1dfe2;
+    border-color: #ba95fe #3f3ae5 #3f3ae5 #ba95fe;
     display: inline;
 }
 #time {
@@ -79,7 +82,7 @@ body {
 }
 #popup{
     border: 3px solid;
-    background: #c0c0c2;
+    background: #efaefe;
     border-color: #e1dfe2 #2c292a #2c292a #e1dfe2;
     margin: 10px;
 
@@ -87,8 +90,8 @@ body {
 #popupheader{
     margin: 2px;
     padding: 2px;
-    background: #000080;
-    color: #e1dfe2;
+    background: #6f3dff;
+    color: #efaefe;
 }
 @media screen and (max-width: 980px) {
     #bigscreen {
